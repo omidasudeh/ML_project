@@ -73,8 +73,8 @@ X = pd.get_dummies(train_df_processed[features],drop_first=True)
 test_features = list(test_df.columns[1:])
 test_X = pd.get_dummies(test_df_processed[test_features],drop_first=True)
 
-
-# # Fit a tree
+print("===================")
+print("Tree classifier")
 
 dt = DecisionTreeClassifier(min_samples_split=20, random_state=99)
 dt.fit(X, y)
@@ -86,8 +86,8 @@ test_df_processed["Prediction"] = dt.predict(test_X)
 result = test_df_processed[["ID","Prediction"]]
 result.to_csv("sl-dt.csv", index=False)
 
-
-# # Regression Tree
+print("===================")
+print("Regression Tree")
 
 dtr = DecisionTreeRegressor() 
 dtr.fit(X, y)
@@ -95,8 +95,8 @@ test_df_processed["Prediction"] = dtr.predict(test_X)
 result = test_df_processed[["ID","Prediction"]]
 result.to_csv("sl-dtr.csv", index=False)
 
-
-# # Random Forest
+print("===================")
+print("Random Forest")
 
 regr = RandomForestRegressor(max_depth=2, random_state=0)
 regr.fit(X, y)
@@ -104,8 +104,8 @@ test_df_processed["Prediction"] = regr.predict(test_X)
 result = test_df_processed[["ID","Prediction"]]
 result.to_csv("sl-rf.csv", index=False)
 
-
-# # GradientBoosting Best
+print("===================")
+print("GradientBoosting regressor")
 
 reg = GradientBoostingRegressor(n_estimators=200, learning_rate=0.2387755102040816, max_depth=5, random_state=0,loss='squared_error')
 reg.fit(X, y)
@@ -113,16 +113,17 @@ test_df_processed["Prediction"] = reg.predict(test_X)
 result = test_df_processed[["ID","Prediction"]]
 result.to_csv("sl-eb.csv", index=False)
 
-
-# # Neural Network
+print("===================")
+print("Neural Network")
 
 regr = MLPRegressor(random_state=1, max_iter=500,hidden_layer_sizes= (25,11,7,5,3,) ).fit(X, y)
 test_df_processed["Prediction"] = regr.predict(test_X)
 result = test_df_processed[["ID","Prediction"]]
 result.to_csv("sl-MLP.csv", index=False)
 
-
-# # Gradient boosting with cross validation
+print("===================")
+print("Gradient boosting with cross validation")
+print("this takes few hours to tune...")
 
 # Number of trees to be used
 xgb_n_estimators = [int(x) for x in np.linspace(20,1000, 15)]
